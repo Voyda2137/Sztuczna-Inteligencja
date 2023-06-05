@@ -15,19 +15,18 @@ class Ant:
         return self.visited[city]
 
 def generate_distance_matrix(num_cities):
-    distance_matrix = np.random.randint(1, 10, size=(num_cities, num_cities))
+    distance_matrix = np.random.randint(1, 50, size=(num_cities, num_cities))
     np.fill_diagonal(distance_matrix, 0)
     return distance_matrix
 
 def initialize_pheromone_matrix(num_cities, initial_pheromone):
     return np.ones((num_cities, num_cities)) * initial_pheromone
 
-def ant_colony_optimization(num_ants, num_iterations, num_cities, alpha, beta, rho, initial_pheromone):
-    distance_matrix = generate_distance_matrix(num_cities)
+def ant_colony_optimization(num_ants, num_iterations, num_cities, alpha, beta, rho, initial_pheromone, distance_matrix):
     pheromone_matrix = initialize_pheromone_matrix(num_cities, initial_pheromone)
     best_distance = float('inf')
     best_path = []
-
+    results = []
     for iteration in range(num_iterations):
         ants = [Ant(num_cities) for _ in range(num_ants)]
         for ant in ants:
@@ -45,8 +44,9 @@ def ant_colony_optimization(num_ants, num_iterations, num_cities, alpha, beta, r
         update_pheromone_matrix(pheromone_matrix, ants, rho)
 
         print(f"Iteration {iteration + 1}: Best distance = {best_distance}")
+        results.append([iteration, best_distance])
 
-    return best_distance, best_path
+    return best_distance, best_path, results
 
 def select_next_city(ant, pheromone_matrix, distance_matrix, alpha, beta):
     current_city = ant.path[-1]
