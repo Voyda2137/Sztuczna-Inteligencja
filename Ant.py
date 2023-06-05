@@ -44,7 +44,7 @@ def ant_colony_optimization(num_ants, num_iterations, num_cities, alpha, beta, r
         update_pheromone_matrix(pheromone_matrix, ants, rho)
 
         print(f"Iteration {iteration + 1}: Best distance = {best_distance}")
-        results.append([iteration, best_distance])
+        results.append(best_distance)
 
     return best_distance, best_path, results
 
